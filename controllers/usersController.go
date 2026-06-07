@@ -98,7 +98,7 @@ func Login(c *gin.Context) {
 		"exp": time.Now().Add(time.Hour*720).Unix(), // 24*30=720 | expire in 1 month
 	})
 	// Sign and get the complete encoded token as a string using the secret
-	tokenString, err := token.SignedString(os.Getenv("JWT_SECRET"))
+	tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SECRET")))
 
 	if (err!=nil) {
 		c.JSON(http.StatusBadRequest, gin.H{
