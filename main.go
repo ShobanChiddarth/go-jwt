@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/shobanchiddarth/go-jwt/controllers"
 )
 
 
@@ -13,11 +14,8 @@ func init() {
 
 func main() {
 	router := gin.Default()
-	router.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-		"message": "pong",
-		})
-	})
+
+	router.POST("/signup", controllers.Signup) 
 
 	router.Run(":"+os.Getenv("PORT"))
 }
