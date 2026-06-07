@@ -12,6 +12,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+
 func Signup(c *gin.Context) {
 	// get email, password off of request body
 	var body struct {
@@ -54,6 +55,7 @@ func Signup(c *gin.Context) {
 	})
 }
 
+
 func Login(c *gin.Context) {
 	// get email and password off request body
 	var body struct {
@@ -91,7 +93,6 @@ func Login(c *gin.Context) {
 		return
 	}
 
-
 	// generate jwt token
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"sub": user.ID,
@@ -106,7 +107,6 @@ func Login(c *gin.Context) {
 		})
 		return
 	}
-
 
 	// send it back, as cookie
 	c.SetSameSite(http.SameSiteLaxMode)

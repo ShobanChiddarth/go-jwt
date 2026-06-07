@@ -14,6 +14,7 @@ func init() {
 	initializers.ConnectToDB()
 }
 
+
 func main() {
 	router := gin.Default()
 

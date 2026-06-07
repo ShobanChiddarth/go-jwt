@@ -21,10 +21,6 @@ func RequireAuth(c *gin.Context) {
 	}
 
 	// Decode, validate it
-	// Parse takes the token string and a function for looking up the key. The latter is especially
-	// useful if you use multiple keys for your application.  The standard is to use 'kid' in the
-	// head of the token to identify which key to use, but the parsed token (head and claims) is provided
-	// to the callback, providing flexibility.
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (any, error) {
 		// hmacSampleSecret is a []byte containing your secret, e.g. []byte("my_secret_key")
 		return []byte(os.Getenv("JWT_SECRET")), nil
@@ -53,9 +49,7 @@ func RequireAuth(c *gin.Context) {
 
 		// continue
 		c.Next()
-
 	} else {
 		c.AbortWithStatus(http.StatusUnauthorized)
 	}
-
 }
