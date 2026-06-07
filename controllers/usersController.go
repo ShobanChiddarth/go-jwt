@@ -108,9 +108,9 @@ func Login(c *gin.Context) {
 	}
 
 
-	// send it back
-	c.JSON(200, gin.H{
-		"token":tokenString,
-	})
+	// send it back, as cookie
+	c.SetSameSite(http.SameSiteLaxMode)
+	c.SetCookie("Authorization", tokenString, 2592000, "", "", false, false ) // 3600*24*30 | change last 2 to true in production and set domain
+	c.JSON(200, gin.H{})
 }
 
