@@ -16,7 +16,8 @@ func init() {
 func main() {
 	router := gin.Default()
 
-	router.POST("/signup", controllers.Signup) 
+	router.POST("/signup", controllers.Signup)
+	router.POST("/login", controllers.Login)
 
 	router.Run(":"+os.Getenv("PORT"))
 }
