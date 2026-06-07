@@ -110,7 +110,11 @@ func Login(c *gin.Context) {
 
 	// send it back, as cookie
 	c.SetSameSite(http.SameSiteLaxMode)
-	c.SetCookie("Authorization", tokenString, 2592000, "", "", false, false ) // 3600*24*30 | change last 2 to true in production and set domain
+	if (os.Getenv("PROD") == "1") {
+		c.SetCookie("Authorization", tokenString, 2592000, "", os.Getenv("DOMAIN"), true, true ) // 3600*24*30
+	} else if (os.Getenv("PROD") == "0") {
+		c.SetCookie("Authorization", tokenString, 2592000, "", "", false, false ) // 3600*24*30
+	}
 	c.JSON(200, gin.H{})
 }
 
