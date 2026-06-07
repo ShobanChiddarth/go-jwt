@@ -114,3 +114,9 @@ func Login(c *gin.Context) {
 	c.JSON(200, gin.H{})
 }
 
+func Validate(c *gin.Context) {
+	user, _ := c.MustGet("user").(models.User)
+	c.JSON(200, gin.H{
+		"message": user.Email,
+	})
+}
