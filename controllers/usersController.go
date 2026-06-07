@@ -50,3 +50,48 @@ func Signup(c *gin.Context) {
 		"message":"signup successful",
 	})
 }
+
+func Login(c *gin.Context) {
+	// get email and password off request body
+	var body struct {
+		Email string
+		Password string
+	}
+
+	if (c.Bind(&body) != nil) {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Failed to read body",
+		})
+
+		return
+	}
+
+	// look up requested user
+	var user models.User
+
+	initializers.DB.First(&user, "email = ?", body.Email)
+
+	if (user.ID == 0) {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Invalid username or password",
+		})
+		return
+	}
+
+	// compare hashes
+	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(body.Password))
+
+	if (err != nil) {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Invalid username or password",
+		})
+		return
+	}
+
+
+	// generate jwt token
+
+
+	// send it back
+}
+
