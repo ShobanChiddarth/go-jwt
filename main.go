@@ -5,11 +5,12 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/shobanchiddarth/go-jwt/controllers"
+	"github.com/shobanchiddarth/go-jwt/initializers"
 )
 
 
 func init() {
-
+	initializers.ConnectToDB()
 }
 
 func main() {
