@@ -18,5 +18,6 @@ func main() {
 		"message": "pong",
 		})
 	})
-	router.Run(":"+os.Getenv("PORT")) // listens on 0.0.0.0:8080 by default
+
+	router.Run(":"+os.Getenv("PORT"))
 }
