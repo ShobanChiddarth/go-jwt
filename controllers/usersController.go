@@ -2,8 +2,11 @@ package controllers
 
 import (
 	"net/http"
+	"os"
+	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/shobanchiddarth/go-jwt/initializers"
 	"github.com/shobanchiddarth/go-jwt/models"
 	"golang.org/x/crypto/bcrypt"
@@ -90,8 +93,24 @@ func Login(c *gin.Context) {
 
 
 	// generate jwt token
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"sub": user.ID,
+		"exp": time.Now().Add(time.Hour*720).Unix(), // 24*30=720 | expire in 1 month
+	})
+	// Sign and get the complete encoded token as a string using the secret
+	tokenString, err := token.SignedString(os.Getenv("JWT_SECRET"))
+
+	if (err!=nil) {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "failed to create token",
+		})
+		return
+	}
 
 
 	// send it back
+	c.JSON(200, gin.H{
+		"token":tokenString,
+	})
 }
 
